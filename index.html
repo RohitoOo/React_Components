@@ -9,8 +9,22 @@
   <title>React Components</title>
 </head>
 <body>
+<style>
+body {
+  list-style-type: none;
+  font-family: fantasy;
+  font-size: 20px;
+  backgroundImage: `url(${Background})`
 
-  <div class="jumbotron">
+}
+
+
+.style{
+ list-style-type: none;
+
+}
+</style>
+  <div class="jumbotron" >
   <div id="content"></div>
   </div>
 
@@ -20,54 +34,51 @@
 
 
 
-//USER COMPONENT
-// var UserComponent = React.createClass({
-//
-//   render: function(props){
-//     console.log(props)
-//
-//     return (
-//       <div>
-//           HElloo
-//       </div>
-//     )
-//   }
-//
-// });
-//
-//
-//
-// ReactDOM.render(
-//   <UserComponent />, document.getElementById('content')
-// )
 
+function User({user}){
 
-function UserComponent(props){
-
-        return (<p>Name: {props.user.name}, Age: {props.user.age}</p>)
-
+  return (
+    <div>
+    User Name : <strong>{user.name}</strong><br/>
+    Age : {user.age}
+    </div>
+  )
 }
 
-function FollowersComponent(props){
-        return (<p className="text-danger">{props.user.name} has {props.user.followers.length} followers:  {props.user.followers.join(" & ")} </p> )
-    }
 
-function WrapperComponent(props){
-        return (<div className="text-primary"><UserComponent user={props.user}/>  <FollowersComponent user={props.user}/></div>)
-    }
+function Followers({user}){
+  return (
+    <div>Followers : {user.followers.map(function(x){
+      return <li> {x} </li>
+
+    })}
+    </div>
+  )
+}
 
 
-
-
+function Wrapper({user}){
+  return(
+    <div   >
+    <ul className="style">
+      <li>
+      <User  user={user}/>
+      <Followers user={user}/>
+      </li>
+    </ul>
+    </div>
+  )
+}
 
 let theUsers = [];
 
-    for(let user of users){
-        theUsers.push(< WrapperComponent user={user} />);
-    }
+for (let user of users){
+theUsers.push(<Wrapper user={user} />)
+}
 
-    ReactDOM.render(theUsers, document.getElementById('content'));
-
+ReactDOM.render(
+  theUsers, document.getElementById('content')
+)
 
 
 
